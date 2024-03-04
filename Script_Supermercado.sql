@@ -102,31 +102,31 @@ from producto p ;
 
 
 -- Ejercicio 2
-/*DELIMITER &&
+DELIMITER &&
 create or replace procedure fechas_registros_compras ()
 begin 
-	declare v_fecha_compra date;
-	declare fecha_hoy date;
 
-	select current_date() into fecha_hoy;
-	select fecha_compra into v_fecha_compra from registro_compra rc order by fecha_compra limit 1;
-	
-	while v_fecha_compra != fecha_hoy 
+	update registro_compra 
+	set fecha_compra = current_date()
+	where fecha_compra <> current_date(); 
 		
-	
-	
 end; &&
-DELIMITER*/
+DELIMITER
 
+call fechas_registros_compras;
+
+select * from registro_compra rc ;
 
 -- Ejercicio 3 
 DELIMITER &&
 create or replace function registra_producto (v_id_producto int, v_nombre varchar(100), v_marca varchar(100), v_descripción varchar(1000), v_precio decimal(10, 2), v_id_seccion int, v_id_supermercado int)
+returns varchar(250) 
 begin 
 	declare existe_producto int;
 	declare existe_seccion int;
 	declare existe_supermercado int;
 	declare repite_nombre_marca_descripcion int;
+	declare mensaje varchar(250);
 	
 	select count(p2.id) into existe_producto from producto p2 where p2.id = v_id_producto;
 	select count(ss.id) into existe_seccion from seccion_supermercado ss where ss.id = v_id_seccion;
@@ -136,22 +136,26 @@ begin
 
 	if existe_producto = 1 and existe_seccion = 1 and existe_supermercado = 1 then 
 	
-		if repite_nombre_marca_descripcion = 1 then
-			select "El producto con dichos datos ya existe" as mensaje;
+		if repite_nombre_marca_descripcion > 0 then
+			set mensaje = "El producto con dichos datos ya existe";
 		else
 			insert into producto (id, nombre, marca, descripcion, precio, id_seccion, id_cadena_supermercado)
 			values (v_id_producto, v_nombre, v_marca, v_descripción, v_precio, v_id_seccion, v_id_supermercado);
 		
-			select "Se ha creado el producto nuevo" as mensaje;
+			set mensaje = "Se ha creado el producto nuevo";
 		end if;
 	
 	else
-		select "Los datos introducidos son incorrectos" as mensaje;
+		set mensaje = "Los datos introducidos son incorrectos";
 	
 	end if;
+
+	return mensaje;
 	
 end; &&
 DELIMITER
+
+select registra_producto(1, "Manzanas", "Royal Gala", "Paquete 6 unidades", 2.99, 1, 1);
 
 select * from seccion_supermercado ss ;
 select * from cadena_supermercado cs ;
