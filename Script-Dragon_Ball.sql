@@ -148,7 +148,6 @@ begin
 	select count(id) into existe_personaje from personaje p  where id = v_personaje_id ;
 	select count(id) into tecnica_combate_repetida from tecnicas_combate tc where nombre_tecnica = v_nombre;
 
-	
 
 
 	if existe_personaje = 1 and tecnica_combate_repetida = 0 then
