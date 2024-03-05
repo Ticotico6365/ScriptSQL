@@ -1,3 +1,37 @@
+-- Queris 
+	-- Ejercicio 1 
+select * 
+from hamburguesa h 
+where valor_calorico between 350 and 500
+order by valor_calorico 
+limit 5;
+
+	-- Ejercicio 2
+select * from hamburguesa h 
+join hamburgueseria h2 on h2.id = h.id_hamburgueseria ;
+
+	-- Ejercicio 3
+select h.nombre as hamburgueseria , count(distinct h2.id) as num_hamburguesas, sum(h2.valor_calorico) as calorias_totales  
+from hamburgueseria h 
+join hamburguesa h2 on h2.id_hamburgueseria = h.id 
+group by h.id ;
+
+	-- Ejercicio 4
+select h.nombre as hamburguesa, i.nombre as ingrediente
+from hamburguesa_ingredientes hi 
+join hamburguesa h on h.id = hi.id_hamburguesa 
+join ingrediente i on i.id = hi.id_ingrediente 
+order by h.nombre ;
+
+	-- Ejercicio 5
+select h.nombre as hamburguesa, avg(vh.valoracion) as valoracion 
+from valoracion_hamburguesa vh 
+join hamburguesa h on h.id = vh.id_hamburguesa 
+group by h.id ;
+
+select avg(vh.valoracion) as valoracion  from valoracion_hamburguesa vh join hamburguesa h on h.id = vh.id_hamburguesa  where h.id_hamburgueseria = 1 group by h.id ;
+
+
 -- Ejercicio 3
 	-- 1
 
