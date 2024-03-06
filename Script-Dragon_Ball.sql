@@ -166,3 +166,5 @@ call crea_tecnica("bofjs", "kjbsf", 150, 15);
 
 select * from tecnicas_combate tc ;
 
+
+select `AUTO_INCREMENT` from information_schema.tables;
