@@ -32,6 +32,7 @@ from linea_compra lc
 join compra c on c.id = lc.id_compra 
 where timestampdiff(day, c.fecha_compra, current_date()) > 0 ;
 
+
 	-- 6
 select c.nombre as cliente, p.nombre as panaderia
 from cliente c 
@@ -55,6 +56,7 @@ join compra c on c.id = lc.id_compra
 join tipo_pan tp on tp.id = lc.id_tipo_pan
 join cliente c2 on c2.id = c.id_cliente 
 join panaderia p on p.id = c.id_panaderia ;
+
 
 -- Ejercicio 2
 	-- 1
